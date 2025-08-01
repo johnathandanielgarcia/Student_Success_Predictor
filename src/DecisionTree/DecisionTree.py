@@ -104,6 +104,16 @@ class DecisionTree:
         return TreeNode(best_feature, best_threshold, left, right)
     
 
+
+    '''
+    Purpose: 
+        Find the most occuring value in a subset of target values 
+    Inputs:
+        y: numpy.ndarray, 1D array of target values in a given node 
+    How It Works:
+        1. Initialize a counter variable on y
+        2. Access and store the label from the first (label, count) in the first most frequent value
+    '''
     def most_common_label(self, y):
         counter = Counter(y)
         value = counter.most_common(1)[0][0]
@@ -111,6 +121,20 @@ class DecisionTree:
     
 
 
+    '''
+    Purpose:
+        Find the best feature and threshold for which to split a node, with 'best' defined as the highest information gain
+    Inputs:
+        X: nunpy.ndarray, 2D array that has feature values in a given node
+        y: numpy.ndarray, 1D array that has 'class labels' aka the target variable in a given node
+        feature_idxs: numpy.ndarray containing indices of features to iterate through to find the best split
+    How It Works:
+        1. Iterate through every feature assocoiated with the feature index in feature_idxs
+        2. Get every unique value in the feature column and store them as potential thresholds for splitting 
+        3. Iterate through every unique threshold
+        4. Calculate the information gain for current threshold using helper function 'information_gain(...)'
+        5. If current information gain is greater than best information gain, update it and store the threshold associated with it
+    '''
     # find threshold for all possible splits to find best one
     def find_best_split(self, X, y, feature_idxs):
         best_gain = -1 # to keep track of best split
@@ -131,6 +155,19 @@ class DecisionTree:
     
 
 
+    '''
+    Purpose:
+        Calculate the information gain from splitting a node on a given threshold
+    Inputs:
+        y: numpy.ndarray, 1D array that has 'class labels' aka the target variable in a given node
+        X_col: numpy.ndarray, 1D array containing all the values in a given feature column being considered
+        threshold: a particular value, int or float, in the feature column being considered as the split condition of the node
+    How It Works:
+        1. Calculate the entropy of calling node by calling helper function 'entropy()'
+        2. Split node and save the left and right indices by calling helper function 'split()'
+        3. If one of the split nodes has no indices, then there is no information gain
+        4. Otherwise, calculate the information gain, defined as -> parent entropy - weighted avg of children entropy after split
+    '''
     def information_gain(self, y, X_col, threshold):
         # we need to find the parent entropy, then create children and find the weighted avg of their entropies, then subtract to find the information gain
         parent_entr = self.entropy(y)
@@ -150,6 +187,16 @@ class DecisionTree:
     
 
 
+    '''
+    Purpose:
+        Calculate the entropy of a subset of target values
+    Inputs:
+        y: numpy.ndarray, 1D array containing target values
+    How It Works:
+        1. Get counts of every unique value in the target feature
+        2. Calculate probability of every unique value in the target feature
+        3. Calculate the entropy defined as (-)summation of p(x)*log(p(x)), ignoring probabilities of 0 to avoid undefined log
+    '''
     def entropy(self, y):
         # entropy = -summation of p(x)*log(p(x)), where p(x) is the probability of each value
         hist = np.bincount(y) # bincount returns an array where the values corresponding to an idx represent how many times that idx number appears in the argument, can think of it like a histogram where the idxs are x-values and arr[idx] is the y value
@@ -158,6 +205,9 @@ class DecisionTree:
     
 
 
+    '''
+    
+    '''
     def split(self, X_col, split_threshold):
         # need to find idxs that go in each direction when we split
         left_idxs = np.argwhere(X_col <= split_threshold).flatten() # argwhere is essentially logical index, will return values where condition is true, we use 'flatten' to have it return a 1D array instead of a 2D array
@@ -166,9 +216,17 @@ class DecisionTree:
 
 
 
+    '''
+    
+    '''
     def predict(self, X):
         return np.array([self.traverse_tree(x, self.root) for x in X])
     
+
+
+    '''
+    
+    '''
     def traverse_tree(self, x, node):
         if node.isLeaf():
             return node.value
