@@ -206,7 +206,15 @@ class DecisionTree:
 
 
     '''
-    
+    Purpose: 
+        Split a node based on a given threshold
+    Inputs:
+        X_col: numpy.ndarray, 1D array containing all the values in a single feature column for all samples in the current node
+        split_threshold: the threshold we are splitting the node by. All values less than or equal to this threshold should go left, all values greater than this threshold should go right
+    How It Works:
+        1. Call 'np.argwhere()' with X_col's values and the conditions <= / > to perform logical indexing
+        2. Use '.flatten()' to convert the return value of 'np.argwhere()' into a 1D array
+        3. Return the arrays of left and right indices
     '''
     def split(self, X_col, split_threshold):
         # need to find idxs that go in each direction when we split
@@ -217,7 +225,12 @@ class DecisionTree:
 
 
     '''
-    
+    Purpose:
+        Predict classifications of new data using fitted decision tree
+    Inputs:
+        X: numpy.ndarray, 2D array that must have shape (number of samples, number of features) and hold the data to be predicted on
+    How It Works:
+        1. Calls helper function 'traverse_tree()' for every datapoint in X and returns the values as a numpy.ndarray
     '''
     def predict(self, X):
         return np.array([self.traverse_tree(x, self.root) for x in X])
@@ -225,7 +238,15 @@ class DecisionTree:
 
 
     '''
-    
+    Purpose:
+        Given a datapoint, traverse the fitted decision tree until a leaf node is reached and return the classification, or class label, at that leaf node
+    Inputs:
+        x: np.ndarray, a 1D array containing the data for one datapoint
+        node: TreeNode, the node that the datapoint is traversing through in the current function call
+    How It Works:
+        1. If the current node is a leaf node, return the value at the node - this is the classification
+        2. Otherwise, traverse the left subtree if x's value for the node's feature is <= the split threshold at the node
+        3. Else, traverse the right subtree
     '''
     def traverse_tree(self, x, node):
         if node.isLeaf():
