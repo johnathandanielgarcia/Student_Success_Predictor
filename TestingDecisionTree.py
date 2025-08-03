@@ -9,7 +9,7 @@ def df_to_Xy(df, target_col):
     y = df[target_col].values
     return X, y
 
-df = pd.read_csv("data/formatted_final_dataset.csv")
+df = pd.read_csv("data/Decision_Tree_formatted_final_dataset.csv")
 X, y = df_to_Xy(df, "GradeClass")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2, random_state=1234)
