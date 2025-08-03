@@ -144,11 +144,6 @@ def predict_decision_tree(which_tree):
     return class_label
     
     
-    
-
-
-
-
 def main():
     option = int(input("Welcome to Student Course Success Predictor!\n" \
     "Which model would you like to explore? First, the model will be trained and then you will have the option to predict using your own data!\n" \
@@ -191,22 +186,105 @@ def main():
                 digit = int(input("If you would like to predict on different data, please enter 0.\n" \
                 "If you would like to train a model with custom parameters to check accuracy, please enter 5.\n" \
                 "If you would like to exit, please enter -1.\n"))
-        
-        
-
-        
-
-
-    
-    
-
-
-
-
-
-
-
-
 
 main()
+
+from TestingLogisticRegression import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score
+
+def train_logistic_regression(learning_rate=0.01, num_iter=1000):
+    df = pd.read_csv("data/Decision_Tree_formatted_final_dataset.csv")
+
+    df["PassFail"] = df["GradeClass"].apply(lambda x: 1 if x <= 2 else 0) #convert to pass/fail
+    X, y = df_to_Xy(df.drop(columns=["GradeClass"]), "PassFail")
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+    lr = LogisticRegression(learning_rate=learning_rate, num_iter=num_iter)
+    lr.fit(X_train, y_train)
+    return lr, X_test, y_test
+
+#function to get metrics 
+def logistic_regression_accuracy(lr, X_test, y_test):
+    preds = lr.predict(X_test)
+    acc = accuracy_score(y_test, preds)
+    prec = precision_score(y_test, preds)
+    rec = recall_score(y_test, preds)
+    return acc, prec, rec
+
+#user trains logistic regression with their own parameters 
+def user_trained_logistic_regression():
+    lr_rate = float(input("Please enter the learning rate you'd like to use (default 0.01): ") or 0.01)
+    n_iter = int(input("Please enter the number of iterations you'd like to use (default 1000): ") or 1000)
+    print("Training Logistic Regression model...")
+
+    lr, X_test, y_test = train_logistic_regression(lr_rate, n_iter)
+    acc, prec, rec = logistic_regression_accuracy(lr, X_test, y_test)
+
+    print(f"Logistic Regression model metrics:\nAccuracy: {acc:.4f}\nPrecision: {prec:.4f}\nRecall: {rec:.4f}")
+    digit = int(input("If you wish to train the Logistic Regression again, enter 6.\n"                       "If you wish to predict on your own data, please enter 0.\n"                       "If you wish to exit, please enter -1.\n"))
+    return digit
+
+#user enters student data and predicts pass/fail
+def predict_logistic_regression(model):
+    print("Please enter your student data for prediction:")
+    age = int(input("Age (15-18): "))
+    gender = int(input("Gender (0=Male,1=Female): "))
+    ethnicity = int(input("Ethnicity (0=Caucasian,1=African American,2=Asian,3=Other): "))
+    parental_education = int(input("Parental Education (0=None to 4=Higher): "))
+    study_time = int(input("Weekly study time (0-20 hrs): "))
+    absences = int(input("Absences (0-30): "))
+    tutoring = int(input("Tutoring (0=No,1=Yes): "))
+    parental_support = int(input("Parental Support (0=None to 4=Very High): "))
+    extracurricular = int(input("Extracurricular (0=No,1=Yes): "))
+    sports = int(input("Sports (0=No,1=Yes): "))
+    music = int(input("Music (0=No,1=Yes): "))
+    volunteering = int(input("Volunteering (0=No,1=Yes): "))
+    gpa = float(input("GPA (2.0-4.0): "))
+    pursue_higher_ed = int(input("Pursue Higher Education (0=No,1=Yes): "))
+    internet_access = int(input("Internet Access at Home (0=No,1=Yes): "))
+    family_relation = int(input("Strength of Familial Relationship (0-4): "))
+    freetime = int(input("Free time after school (0-4): "))
+    health_status = int(input("Health status (0-4): "))
+
+    sample = np.array([[age, gender, ethnicity, parental_education, study_time, absences, tutoring, parental_support,
+                        extracurricular, sports, music, volunteering, gpa, pursue_higher_ed, internet_access,
+                        family_relation, freetime, health_status]])
+    
+    pred = model.predict(sample)[0]
+    if pred == 1:
+        print("Prediction: PASS (A/B/C)")
+    else:
+        print("Prediction: FAIL (D/F)")
+
+if __name__ == "__main__":
+    while True:
+        print("\nChoose a model to run:")
+        print("1. Train Decision Tree")
+        print("2. Train Logistic Regression")
+        print("0. Exit")
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            next_step = user_trained_decision_tree()
+            if next_step == 0:
+                dt, X_test, y_test = train_decision_tree(2, 3)
+                predict_decision_tree(dt)
+            elif next_step == -1:
+                break
+        elif choice == "2":
+            next_step = user_trained_logistic_regression()
+            if next_step == 0:
+                lr, X_test, y_test = train_logistic_regression()
+                predict_logistic_regression(lr)
+            elif next_step == -1:
+                break
+        elif choice == "0":
+            break
+        else:
+            print("Invalid choice. Try again.")
+
+
+
+
 
