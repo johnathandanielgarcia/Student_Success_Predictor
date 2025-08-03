@@ -193,7 +193,7 @@ from TestingLogisticRegression import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 def train_logistic_regression(learning_rate=0.01, num_iter=1000):
-    df = pd.read_csv("data/Decision_Tree_formatted_final_dataset.csv")
+    df = pd.read_csv("data/LogReg_formatted_final_dataset.csv")
 
     df["PassFail"] = df["GradeClass"].apply(lambda x: 1 if x <= 2 else 0) #convert to pass/fail
     X, y = df_to_Xy(df.drop(columns=["GradeClass"]), "PassFail")
