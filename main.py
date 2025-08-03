@@ -228,28 +228,29 @@ def user_trained_logistic_regression():
 #user enters student data and predicts pass/fail
 def predict_logistic_regression(model):
     print("Please enter your student data for prediction:")
-    age = int(input("Age (15-18): "))
-    gender = int(input("Gender (0=Male,1=Female): "))
-    ethnicity = int(input("Ethnicity (0=Caucasian,1=African American,2=Asian,3=Other): "))
-    parental_education = int(input("Parental Education (0=None to 4=Higher): "))
-    study_time = int(input("Weekly study time (0-20 hrs): "))
-    absences = int(input("Absences (0-30): "))
-    tutoring = int(input("Tutoring (0=No,1=Yes): "))
-    parental_support = int(input("Parental Support (0=None to 4=Very High): "))
-    extracurricular = int(input("Extracurricular (0=No,1=Yes): "))
-    sports = int(input("Sports (0=No,1=Yes): "))
-    music = int(input("Music (0=No,1=Yes): "))
-    volunteering = int(input("Volunteering (0=No,1=Yes): "))
-    gpa = float(input("GPA (2.0-4.0): "))
-    pursue_higher_ed = int(input("Pursue Higher Education (0=No,1=Yes): "))
-    internet_access = int(input("Internet Access at Home (0=No,1=Yes): "))
-    family_relation = int(input("Strength of Familial Relationship (0-4): "))
-    freetime = int(input("Free time after school (0-4): "))
-    health_status = int(input("Health status (0-4): "))
+    age = int(input("Age 15-18: "))
+    gender = int(input("Gender 0=Male 1=Female: "))
+    ethnicity = int(input("Ethnicity 0=Cauc 1=AfAm 2=Asian 3=Other: "))
+    parental_education = int(input("Parent Edu 0-4: "))
+    study_time = int(input("Study hrs/wk 0-20: "))
+    absences = int(input("Absences 0-30: "))
+    tutoring = int(input("Tutoring 0/1: "))
+    parental_support = int(input("Parent Support 0-4: "))
+    extracurricular = int(input("Extracurricular 0/1: "))
+    sports = int(input("Sports 0/1: "))
+    music = int(input("Music 0/1: "))
+    volunteering = int(input("Volunteering 0/1: "))
+    gpa = float(input("GPA 2.0-4.0: "))
+    pursue_higher_ed = int(input("Pursue Higher Ed 0/1: "))
+    internet_access = int(input("Internet Access 0/1: "))
+    family_relation = int(input("Family Relationship 0-4: "))
+    freetime = int(input("Free Time 0-4: "))
+    health_status = int(input("Health 0-4: "))
 
-    sample = np.array([[age, gender, ethnicity, parental_education, study_time, absences, tutoring, parental_support,
-                        extracurricular, sports, music, volunteering, gpa, pursue_higher_ed, internet_access,
-                        family_relation, freetime, health_status]])
+    sample = np.array([[age, gender, ethnicity, parental_education, study_time, absences, tutoring,
+                        parental_support, extracurricular, sports, music, volunteering, gpa,
+                        pursue_higher_ed, internet_access, family_relation, freetime, health_status]])
+    
     
     pred = model.predict(sample)[0]
     if pred == 1:
