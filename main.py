@@ -189,7 +189,7 @@ def main():
 
 main()
 
-from TestingLogisticRegression import LogisticRegression
+from src.LogisticRegressionModel.LogisticRegression import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 def train_logistic_regression(learning_rate=0.01, num_iter=1000):
@@ -200,7 +200,7 @@ def train_logistic_regression(learning_rate=0.01, num_iter=1000):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
 
-    lr = LogisticRegression(learning_rate=learning_rate, num_iter=num_iter)
+    lr = LogisticRegression(learning_rate=learning_rate, max_it=num_iter)
     lr.fit(X_train, y_train)
     return lr, X_test, y_test
 
