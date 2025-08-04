@@ -1,5 +1,6 @@
 # 🎓 Student Success Predictor  
 **by:** Johnathan Garcia, Devina Tikkoo, and Hithisha Dubbaka  
+**Demo Link:** https://www.youtube.com/watch?v=wzqMbxBsu0s  
 
 ---
 
