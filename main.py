@@ -268,8 +268,8 @@ def predict_logistic_regression(model):
     if model == 0:
         lr,_,_ = train_logistic_regression()
     else:
-        lr_rate = float(input("Please enter the learning rate you'd like to use (default 0.01): ") or 0.01)
-        n_iter = int(input("Please enter the number of iterations you'd like to use (default 1000): ") or 1000)
+        lr_rate = float(input("Please enter the learning rate you'd like to use: ") or 0.01)
+        n_iter = int(input("Please enter the number of iterations you'd like to use: ") or 1000)
         lr,_,_ = train_logistic_regression(lr_rate, n_iter)
     class_label = lr.predict(data)
     
