@@ -8,7 +8,7 @@ self.weight = vector of weights; feature coefficients
 self.bias = for linear combination
 '''
 class LogisticRegression:
-    def __init__(self, learning_rate = 0.01, max_it = 1000):
+    def __init__(self, learning_rate = 0.001, max_it = 1000):
         self.learning_rate = learning_rate
         self.max_it = max_it
         self.weight = None
